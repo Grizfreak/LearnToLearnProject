@@ -7,7 +7,7 @@ pygame.display.set_caption("pts4")
 screen = pygame.display.set_mode((1400, 650))
 
 # importer l'arriere plan du jeu
-background = pygame.image.load('../../AndroidStudioProjects/ClickerGame/LearnToLearnProject/shooter/asset/back.png')
+background = pygame.image.load('./asset/back.png')
 
 # charger le jeu
 game = Game()

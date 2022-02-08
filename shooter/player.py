@@ -12,7 +12,7 @@ class Player(pygame.sprite.Sprite):
         self.attack = 10
         self.velocity = 3
         self.all_projectiles = pygame.sprite.Group()
-        self.image = pygame.image.load('../../AndroidStudioProjects/ClickerGame/LearnToLearnProject/shooter/asset/player(pts4).png')
+        self.image = pygame.image.load('./asset/player(pts4).png')
         self.rect = self.image.get_rect()
         self.rect.x = 200
         self.rect.y = 350

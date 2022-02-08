@@ -10,7 +10,7 @@ class Monster(pygame.sprite.Sprite):
         self.max_health = 100
         self.attack = 5
         self.velocity = 3
-        self.image = pygame.image.load('../../AndroidStudioProjects/ClickerGame/LearnToLearnProject/shooter/asset/monter(pts4).png')
+        self.image = pygame.image.load('./asset/monter(pts4).png')
         self.rect = self.image.get_rect()
         self.rect.x = 1300
         self.rect.y = 375

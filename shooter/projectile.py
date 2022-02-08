@@ -8,7 +8,7 @@ class Projectile(pygame.sprite.Sprite):
         super().__init__()
         self.velocity = 5
         self.player = player
-        self.image = pygame.image.load('../../AndroidStudioProjects/ClickerGame/LearnToLearnProject/shooter/asset/bulet.png')
+        self.image = pygame.image.load('./asset/bulet.png')
         # self.image = pygame.transform.scale(self.image, (50, 50)) changer la taille de l'image
         self.rect = self.image.get_rect()
         self.rect.x = player.rect.x + 95
