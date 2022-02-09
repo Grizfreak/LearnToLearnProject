@@ -1,0 +1,203 @@
+import pygame
+from gameConstants import *
+from GravityState import GravityState
+class Player():
+    def __init__(self, x, y,gameConstants):
+        self.images_right = []
+        self.images_left = []
+        self.index = 0
+        self.counter = 0
+        self.gameConstants = gameConstants
+        for num in range(1, 5):
+            img_right = pygame.image.load(f'img/guy{num}.png')
+            img_right = pygame.transform.scale(img_right, (40, 80))
+            img_left = pygame.transform.flip(img_right, True, False)
+            self.images_right.append(img_right)
+            self.images_left.append(img_left)
+        self.image = self.images_right[self.index]
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.width = self.image.get_width()
+        self.height = self.image.get_height()
+        self.vel_y = 0
+        self.vel_x = 0
+        self.jumped = False
+        self.direction = 0
+
+    def update(self,world):
+        dx = 0
+        dy = 0
+        walk_cooldown = 5
+
+        #get keypresses
+        key = pygame.key.get_pressed()
+
+
+        if key[pygame.K_LEFT]:
+            self.gameConstants.gravity = GravityState.LEFT
+        if key[pygame.K_RIGHT]:
+            self.gameConstants.gravity = GravityState.RIGHT
+        if key[pygame.K_UP]:
+            self.gameConstants.gravity = GravityState.TOP
+        if key[pygame.K_DOWN]:
+            self.gameConstants.gravity = GravityState.BOTTOM
+
+        if key[pygame.K_SPACE] and self.jumped == False:
+            print(self.gameConstants.gravity)
+            self.vel_y = -15
+            #state gravity case TODO
+            self.vel_x = -15
+            self.jumped = True
+        if key[pygame.K_SPACE] == False:
+            self.jumped = False
+        if key[pygame.K_q]:
+            #TODO change for all gravities
+            if self.gameConstants.gravity == GravityState.BOTTOM:
+                dx -= 5
+            elif self.gameConstants.gravity == GravityState.TOP:
+                dx += 5
+            elif self.gameConstants.gravity == GravityState.LEFT:
+                dy -= 5
+            elif self.gameConstants.gravity == GravityState.RIGHT:
+                dy += 5
+            self.counter += 1
+            self.direction = -1
+
+        if key[pygame.K_d]:
+            # TODO change for all gravities
+            if self.gameConstants.gravity == GravityState.BOTTOM:
+                dx += 5
+            elif self.gameConstants.gravity == GravityState.TOP:
+                dx -= 5
+            elif self.gameConstants.gravity == GravityState.LEFT:
+                dy += 5
+            elif self.gameConstants.gravity == GravityState.RIGHT:
+                dy -= 5
+
+        if key[pygame.K_LEFT] == False and key[pygame.K_RIGHT] == False:
+            self.counter = 0
+            self.index = 0
+            if self.direction == 1:
+                self.image = self.images_right[self.index]
+            if self.direction == -1:
+                self.image = self.images_left[self.index]
+
+
+        #handle animation
+        if self.counter > walk_cooldown:
+            self.counter = 0
+            self.index += 1
+            if self.index >= len(self.images_right):
+                self.index = 0
+            if self.direction == 1:
+                self.image = self.images_right[self.index]
+            if self.direction == -1:
+                self.image = self.images_left[self.index]
+
+
+        #add gravity
+        if self.gameConstants.gravity == GravityState.BOTTOM:
+            self.vel_y += 1
+            if self.vel_y > 10:
+                self.vel_y = 10
+            dy += self.vel_y
+        elif self.gameConstants.gravity == GravityState.LEFT:
+            self.vel_x += 1
+            if self.vel_x > 10:
+                self.vel_x = 10
+            dx -= self.vel_x
+        elif self.gameConstants.gravity == GravityState.TOP:
+            self.vel_y += 1
+            if self.vel_y > 10:
+                self.vel_y = 10
+            dy -= self.vel_y
+        elif self.gameConstants.gravity == GravityState.RIGHT:
+            self.vel_x += 1
+            if self.vel_x > 10:
+                self.vel_x = 10
+            dx += self.vel_x
+        #check for collision
+        for tile in world.tile_list:
+            if self.gameConstants.gravity == GravityState.BOTTOM:
+                #check for collision in x direction
+                if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
+                    dx = 0
+                #check for collision in y direction
+                if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
+                    #check if below the ground i.e. jumping
+                    if self.vel_y < 0:
+                        print('collide')
+                        dy = tile[1].bottom - self.rect.top
+                        self.vel_y = 0
+                        self.vel_x = 0
+                    #check if above the ground i.e. falling
+                    elif self.vel_y >= 0:
+                        dy = tile[1].top - self.rect.bottom
+                        self.vel_y = 0
+                        self.vel_x = 0
+            elif self.gameConstants.gravity == GravityState.TOP:
+                # check for collision in x direction
+                if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
+                    dx = 0
+                # check for collision in y direction
+                if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
+                    # check if below the ground i.e. jumping
+                    if self.vel_y >= 0:
+                        print('collide')
+                        dy = tile[1].bottom - self.rect.top
+                        self.vel_y = 0
+                        self.vel_x = 0
+                    # check if above the ground i.e. falling
+                    elif self.vel_y < 0:
+                        dy = tile[1].top - self.rect.bottom
+                        self.vel_y = 0
+                        self.vel_x = 0
+            elif self.gameConstants.gravity == GravityState.LEFT:
+                # check for collision in x direction
+                if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
+                    # check if below the ground i.e. jumping
+                    if self.vel_x < 0:
+                        dx = tile[1].left - self.rect.right
+                        self.vel_y = 0
+                        self.vel_x = 0
+                    # check if above the ground i.e. falling
+                    elif self.vel_x >= 0:
+                        dx = tile[1].right - self.rect.left
+                        self.vel_y = 0
+                        self.vel_x = 0
+                # check for collision in y direction
+                if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
+                    dy = 0
+            elif self.gameConstants.gravity == GravityState.RIGHT:
+                # check for collision in x direction
+                if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
+                    # check if below the ground i.e. jumping
+                    if self.vel_x >= 0:
+                        dx = tile[1].left - self.rect.right
+                        self.vel_y = 0
+                        self.vel_x = 0
+                    # check if above the ground i.e. falling
+                    elif self.vel_x < 0:
+                        dx = tile[1].right - self.rect.left
+                        self.vel_y = 0
+                        self.vel_x = 0
+                # check for collision in y direction
+                if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
+                    dy = 0
+
+
+
+
+        #update player coordinates
+        self.rect.x += dx
+        self.rect.y += dy
+
+        if self.rect.bottom > self.gameConstants.screen_height:
+            self.rect.bottom = self.gameConstants.screen_height
+            dy = 0
+
+        #draw player onto screen
+        self.gameConstants.screen.blit(self.image, self.rect)
+        pygame.draw.rect(self.gameConstants.screen, (255, 255, 255), self.rect, 2)
+
