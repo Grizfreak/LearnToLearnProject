@@ -4,6 +4,7 @@ from World import World
 from Player import Player
 from InputBox import InputBox
 from gameConstants import gameConstants
+from Library_Interpreter.Interpreter import Interpreter
 
 pygame.init()
 world_data = [
@@ -30,9 +31,9 @@ world_data = [
 ]
 
 gameConstants = gameConstants()
-response = ''
-input_box = InputBox(400, 900, 140, 32, gameConstants, response)
 player = Player(100, gameConstants.screen_height - 130, gameConstants)
+interpreter = Interpreter(player.dictionary)
+input_box = InputBox(400, 900, 140, 32, gameConstants, interpreter)
 world = World(world_data, gameConstants)
 
 run = True
@@ -53,7 +54,6 @@ while run:
         if event.type == pygame.QUIT:
             run = False
         input_box.handle_event(event)
-
 
     input_box.update()
     pygame.display.update()

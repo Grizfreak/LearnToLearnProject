@@ -4,8 +4,10 @@ from gameConstants import gameConstants
 
 class InputBox:
 
-    def __init__(self, x, y, w, h, gameConstants, text=''):
+    def __init__(self, x, y, w, h, gameConstants,interpreter, text=''):
+        self.interpreter = interpreter
         self.gameConstants = gameConstants
+        print(self.gameConstants)
         self.rect = pygame.Rect(x, y, w, h)
         self.color = self.gameConstants.COLOR_INACTIVE
         self.text = text
@@ -20,9 +22,10 @@ class InputBox:
         if event.type == pygame.KEYDOWN:
             if self.active:
                 if event.key == pygame.K_RETURN:
-                    self.active = False
                     print(self.text)
+                    self.interpreter.interprete_command(self.text)
                     self.text = ''
+                    self.active = False
                 elif event.key == pygame.K_BACKSPACE:
                     self.text = self.text[:-1]
                 else:

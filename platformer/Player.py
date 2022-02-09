@@ -1,15 +1,18 @@
 import pygame
 from gameConstants import *
-from GravityState import GravityState
+from platformer.GravityState import GravityState
+from Library_Interpreter.Gravity_Library import Gravity_Library
+from Library_Interpreter.Dictionnary import Dictionnary
 
 
-class Player():
+class Player:
     def __init__(self, x, y, gameConstants):
         self.images_right = []
         self.images_left = []
         self.index = 0
         self.counter = 0
         self.gameConstants = gameConstants
+        self.dictionary = Dictionnary([Gravity_Library(self)])
         for num in range(1, 5):
             img_right = pygame.image.load(f'img/guy{num}.png')
             img_right = pygame.transform.scale(img_right, (40, 80))
@@ -45,7 +48,6 @@ class Player():
             self.gameConstants.gravity = GravityState.BOTTOM
 
         if key[pygame.K_SPACE] and self.jumped == False and self.in_air == False:
-            print(self.gameConstants.gravity)
             self.vel_y = -15
             # state gravity case TODO
             self.vel_x = -15
@@ -53,13 +55,19 @@ class Player():
         if not key[pygame.K_SPACE]:
             self.jumped = False
         if key[pygame.K_q]:
+            #print('entered')
+            print(self.gameConstants.gravity)
+            print(self.gameConstants.gravity == GravityState.LEFT)
             # TODO change for all gravities
             if self.gameConstants.gravity == GravityState.BOTTOM:
                 dx -= 5
             elif self.gameConstants.gravity == GravityState.TOP:
                 dx += 5
             elif self.gameConstants.gravity == GravityState.LEFT:
+                print('entered')
+                print(dy)
                 dy -= 5
+                print(dy)
             elif self.gameConstants.gravity == GravityState.RIGHT:
                 dy += 5
             self.counter += 1
@@ -75,6 +83,9 @@ class Player():
                 dy += 5
             elif self.gameConstants.gravity == GravityState.RIGHT:
                 dy -= 5
+            self.counter += 1
+            self.direction = 1
+            print(dy, dx)
 
         if key[pygame.K_LEFT] == False and key[pygame.K_RIGHT] == False:
             self.counter = 0

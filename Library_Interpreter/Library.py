@@ -12,5 +12,5 @@ class Library:
         if name == self.id: return True
         else: return False
 
-    def summon(self):
+    def summon(self,arr):
         print('No reason to display something')

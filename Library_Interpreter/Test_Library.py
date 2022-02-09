@@ -7,5 +7,5 @@ class Test_Library(Library):
         super().__init__('test')
 
 
-    def summon(self):
+    def summon(self,arr):
         print('Salut je teste que tout fonctionne parfaitement bien')
