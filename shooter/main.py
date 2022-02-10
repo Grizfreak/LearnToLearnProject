@@ -42,6 +42,12 @@ while running:
     # appliquer l'ensemble des images du groupe de monstre
     game.all_monsters.draw(screen)
 
+    # appliquer l'ensemble des eclaires
+    game.all_thunder.draw(screen)
+
+    for thunder in game.all_thunder:
+        thunder.fall()
+
     # verifier si le joueur veut aller a gauche ou droite
     if game.pressed.get(pygame.K_d) and game.player.rect.x < screen.get_width() - 100:
         game.player.move_right()
@@ -61,6 +67,9 @@ while running:
         # detecter si un joueur lache une touche du clavier
         elif event.type == pygame.KEYDOWN:
             game.pressed[event.key] = True
+
+            if event.key == pygame.K_e:
+                game.spawn_thunder()
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
