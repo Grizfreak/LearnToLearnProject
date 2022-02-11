@@ -33,7 +33,7 @@ while running:
 
     # recuperer les monstre du jeu
     for monster in game.all_monsters:
-        monster.forward()
+        # monster.forward()
         monster.update_health_bar(screen)
 
     # appliquer l'ensemble des images du groupe de projectiles
@@ -41,6 +41,12 @@ while running:
 
     # appliquer l'ensemble des images du groupe de monstre
     game.all_monsters.draw(screen)
+
+    # appliquer l'ensemble des nuages
+    game.all_nuages.draw(screen)
+
+    for nuage in game.all_nuages:
+        nuage.spawn()
 
     # appliquer l'ensemble des eclaires
     game.all_thunder.draw(screen)
@@ -69,7 +75,7 @@ while running:
             game.pressed[event.key] = True
 
             if event.key == pygame.K_e:
-                game.spawn_thunder()
+                game.spawn_nuage()
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False

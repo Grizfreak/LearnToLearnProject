@@ -1,17 +1,18 @@
 import pygame
 import random
 
+
 # classe pour gerer la pluie d'éclaire
 class Thunder(pygame.sprite.Sprite):
 
     def __init__(self, game):
         super().__init__()
-        self.velocity = random.randint(1, 2)
+        self.velocity = random.randint(10, 20)
         # definir l'image
         self.image = pygame.image.load('./asset/thunder.png')
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
-        self.rect.x = random.randint(50, 1400)
+        self.rect.x = random.randint(250, 1300)
         self.rect.y = - random.randint(0, 400)
         self.game = game
 
@@ -32,5 +33,5 @@ class Thunder(pygame.sprite.Sprite):
             # retirer l'éclaire
             self.remove()
             # appliquer les dégats
-            self.game.monster.damage(100)
+            # ça marche pas a revoir self.game.monster.damage(100)
             print("monstre foudroyé !")
