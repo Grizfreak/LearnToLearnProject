@@ -2,6 +2,12 @@ import pygame
 from game import Game
 pygame.init()
 
+# definir une clock
+clock = pygame.time.Clock()
+FPS = 120
+SLOW_MOTION = 10
+
+
 # generer la fenetre de notre jeu
 pygame.display.set_caption("pts4")
 screen = pygame.display.set_mode((1400, 650))
@@ -21,6 +27,11 @@ while running:
     # appliquer l'arriere plan du jeu
     screen.blit(background, (0, 0))
 
+    # afficher le score
+    font = pygame.font.SysFont("monospace", 16)
+    score_text = font.render(f"Score : {game.score}", 1, (0, 0, 0))
+    screen.blit(score_text, (20, 20))
+
     # appliquer l'image du joueur
     screen.blit(game.player.image, game.player.rect)
 
@@ -33,7 +44,7 @@ while running:
 
     # recuperer les monstre du jeu
     for monster in game.all_monsters:
-        # monster.forward()
+        monster.forward()
         monster.update_health_bar(screen)
 
     # appliquer l'ensemble des images du groupe de projectiles
@@ -77,6 +88,9 @@ while running:
             if event.key == pygame.K_e:
                 game.spawn_nuage()
 
+            if event.key == pygame.K_EXCLAIM:
+                clock.tick(SLOW_MOTION)
+
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
 
@@ -85,3 +99,5 @@ while running:
             mouse_presses = pygame.mouse.get_pressed()
             if mouse_presses[0]:
                 game.player.launch_projectile()
+    # fixer le nobre de fps sur la clock
+    clock.tick(FPS)

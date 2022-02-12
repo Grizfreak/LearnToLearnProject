@@ -26,6 +26,8 @@ class Monster(pygame.sprite.Sprite):
             self.velocity = random.randint(1, 2)
             self.health = self.max_health
             self.game.player.update_attack(1)
+            # ajout du score
+            self.game.score += 10
 
     def update_health_bar(self, surface):
 
@@ -42,3 +44,33 @@ class Monster(pygame.sprite.Sprite):
         else:
             # infliger des degats
             self.game.player.damage(self.attack)
+        if self.rect.x <= 0:
+            self.rect.x = 1300 + random.randint(0, 300)
+            self.rect.y = 375
+
+
+# definir une class pour le premier monstre
+class Vampire(Monster):
+
+    def __init__(self, game):
+        super().__init__(game)
+
+# definir une class pour le deuxieme monstre
+class Oiseau(Monster):
+
+    def __init__(self, game):
+        super().__init__(game)
+        self.image = pygame.image.load('./asset/oiseau(pts4).png')
+        self.rect.y = 200
+
+    def forward(self):
+        # le deplacement se fait que si il n'y a pas de joueur
+        if not self.game.check_collision(self, self.game.all_players):
+            self.rect.x -= self.velocity
+        # si le monstre est en colision avec le joueur
+        else:
+            # infliger des degats
+            self.game.player.damage(self.attack)
+        if self.rect.x <= - 250:
+            self.rect.x = 1300 + random.randint(0, 300)
+            self.rect.y = 200

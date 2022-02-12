@@ -1,6 +1,6 @@
 import pygame
 from player import Player
-from monster import Monster
+from monster import Monster, Vampire, Oiseau
 from thunder import Thunder
 from nuage import Nuage
 
@@ -14,17 +14,20 @@ class Game:
         self.all_players.add(self.player)
         self.all_monsters = pygame.sprite.Group()
         self.pressed = {}
-        self.spawn_monster()
-        self.spawn_monster()
+        self.spawn_monster(Vampire)
+        self.spawn_monster(Vampire)
+        self.spawn_monster(Oiseau)
         self.all_thunder = pygame.sprite.Group()
         self.all_nuages = pygame.sprite.Group()
+        # mettre le score a 0
+        self.score = 0
 
 
     def check_collision(self, sprite, group):
         return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask)
 
-    def spawn_monster(self):
-        self.all_monsters.add(Monster(self))
+    def spawn_monster(self, monster_class_name):
+        self.all_monsters.add(monster_class_name.__call__(self))
 
     def spawn_nuage(self):
         print("PLUIE D'ECLAIRE!")
