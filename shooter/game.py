@@ -3,6 +3,8 @@ from player import Player
 from monster import Monster, Vampire, Oiseau
 from thunder import Thunder
 from nuage import Nuage
+from wave import Wave
+
 
 # classe du jeu
 class Game:
@@ -19,6 +21,7 @@ class Game:
         self.spawn_monster(Oiseau)
         self.all_thunder = pygame.sprite.Group()
         self.all_nuages = pygame.sprite.Group()
+        self.all_waves = pygame.sprite.Group()
         # mettre le score a 0
         self.score = 0
 
@@ -32,6 +35,10 @@ class Game:
     def spawn_nuage(self):
         print("PLUIE D'ECLAIRE!")
         self.all_nuages.add(Nuage(self))
+
+    def spawn_wave(self):
+        print("VAGUE EN APPROCHE")
+        self.all_waves.add(Wave(self))
 
     def spawn_thunder(self):
         i = 0

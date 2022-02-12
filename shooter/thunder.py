@@ -28,10 +28,9 @@ class Thunder(pygame.sprite.Sprite):
             self.remove()
 
         # detection du monstre
-        if self.game.check_collision(self, self.game.all_monsters):
-            print("Monstre touché !")
+        for monster in self.game.check_collision(self, self.game.all_monsters):
             # retirer l'éclaire
             self.remove()
             # appliquer les dégats
-            # ça marche pas a revoir self.game.monster.damage(100)
+            monster.damage(100)
             print("monstre foudroyé !")

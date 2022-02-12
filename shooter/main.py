@@ -4,7 +4,7 @@ pygame.init()
 
 # definir une clock
 clock = pygame.time.Clock()
-FPS = 120
+FPS = 90
 SLOW_MOTION = 10
 
 
@@ -65,6 +65,12 @@ while running:
     for thunder in game.all_thunder:
         thunder.fall()
 
+    # appliquer l'ensemble de la wave
+    game.all_waves.draw(screen)
+
+    for wave in game.all_waves:
+        wave.spawn()
+
     # verifier si le joueur veut aller a gauche ou droite
     if game.pressed.get(pygame.K_d) and game.player.rect.x < screen.get_width() - 100:
         game.player.move_right()
@@ -87,6 +93,9 @@ while running:
 
             if event.key == pygame.K_e:
                 game.spawn_nuage()
+
+            if event.key == pygame.K_f:
+                game.spawn_wave()
 
             if event.key == pygame.K_EXCLAIM:
                 clock.tick(SLOW_MOTION)

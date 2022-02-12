@@ -47,6 +47,9 @@ class Monster(pygame.sprite.Sprite):
         if self.rect.x <= 0:
             self.rect.x = 1300 + random.randint(0, 300)
             self.rect.y = 375
+        if self.game.check_collision(self, self.game.all_waves):
+            print("monstre se prends la wave en pleine face")
+            self.rect.x += 3
 
 
 # definir une class pour le premier monstre
@@ -61,16 +64,15 @@ class Oiseau(Monster):
     def __init__(self, game):
         super().__init__(game)
         self.image = pygame.image.load('./asset/oiseau(pts4).png')
-        self.rect.y = 200
+        self.rect.y = 250
 
     def forward(self):
-        # le deplacement se fait que si il n'y a pas de joueur
-        if not self.game.check_collision(self, self.game.all_players):
-            self.rect.x -= self.velocity
-        # si le monstre est en colision avec le joueur
-        else:
+        if self.game.check_collision(self, self.game.all_players):
             # infliger des degats
             self.game.player.damage(self.attack)
+        else:
+            self.rect.x -= self.velocity
+
         if self.rect.x <= - 250:
             self.rect.x = 1300 + random.randint(0, 300)
             self.rect.y = 200
