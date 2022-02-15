@@ -9,6 +9,14 @@ class Player:
     def __init__(self, x, y, gameConstants):
         self.images_right = []
         self.images_left = []
+        self.images_right_BOTTOM = []
+        self.images_left_BOTTOM = []
+        self.images_right_TOP = []
+        self.images_left_TOP = []
+        self.images_right_LEFT = []
+        self.images_left_LEFT = []
+        self.images_right_RIGHT = []
+        self.images_left_RIGHT = []
         self.index = 0
         self.counter = 0
         self.gameConstants = gameConstants
@@ -18,7 +26,15 @@ class Player:
             img_right = pygame.transform.scale(img_right, (40, 80))
             img_left = pygame.transform.flip(img_right, True, False)
             self.images_right.append(img_right)
+            self.images_right_BOTTOM.append(img_right)
             self.images_left.append(img_left)
+            self.images_left_BOTTOM.append(img_left)
+            self.images_right_TOP.append(pygame.transform.flip(img_right,False,True))
+            self.images_left_TOP.append(pygame.transform.flip(img_left,False,True))
+            self.images_left_LEFT.append(pygame.transform.rotate(img_left,270))
+            self.images_right_LEFT.append(pygame.transform.rotate(img_right,270))
+            self.images_left_RIGHT.append(pygame.transform.rotate(img_left,90))
+            self.images_right_RIGHT.append(pygame.transform.rotate(img_right,90))
         self.image = self.images_right[self.index]
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -55,14 +71,14 @@ class Player:
         if not key[pygame.K_SPACE]:
             self.jumped = False
         if key[pygame.K_q]:
-            #print('entered')
+            # print('entered')
             print(self.gameConstants.gravity)
             print(self.gameConstants.gravity == GravityState.LEFT)
             # TODO change for all gravities
             if self.gameConstants.gravity == GravityState.BOTTOM:
                 dx -= 5
             elif self.gameConstants.gravity == GravityState.TOP:
-                dx += 5
+                dx -= 5
             elif self.gameConstants.gravity == GravityState.LEFT:
                 print('entered')
                 print(dy)
@@ -78,7 +94,7 @@ class Player:
             if self.gameConstants.gravity == GravityState.BOTTOM:
                 dx += 5
             elif self.gameConstants.gravity == GravityState.TOP:
-                dx -= 5
+                dx += 5
             elif self.gameConstants.gravity == GravityState.LEFT:
                 dy += 5
             elif self.gameConstants.gravity == GravityState.RIGHT:
@@ -87,7 +103,7 @@ class Player:
             self.direction = 1
             print(dy, dx)
 
-        if key[pygame.K_LEFT] == False and key[pygame.K_RIGHT] == False:
+        if key[pygame.K_q] == False and key[pygame.K_d] == False:
             self.counter = 0
             self.index = 0
             if self.direction == 1:
@@ -222,3 +238,17 @@ class Player:
     def draw(self):
         self.gameConstants.screen.blit(self.image, self.rect)
         pygame.draw.rect(self.gameConstants.screen, (255, 255, 255), self.rect, 2)
+
+    def changeSprite(self):
+        if self.gameConstants.gravity == GravityState.BOTTOM:
+            self.images_left = self.images_left_BOTTOM
+            self.images_right = self.images_right_BOTTOM
+        elif self.gameConstants.gravity == GravityState.TOP:
+            self.images_left = self.images_left_TOP
+            self.images_right = self.images_right_TOP
+        elif self.gameConstants.gravity == GravityState.LEFT:
+            self.images_left = self.images_left_LEFT
+            self.images_right = self.images_right_LEFT
+        elif self.gameConstants.gravity == GravityState.RIGHT:
+            self.images_left = self.images_left_RIGHT
+            self.images_right = self.images_right_RIGHT

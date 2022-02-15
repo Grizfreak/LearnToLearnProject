@@ -20,3 +20,4 @@ class Gravity_Library(Library):
             self.player.gameConstants.gravity = GravityState.TOP
         else:
             print('unable to find matches')
+        self.player.changeSprite()
