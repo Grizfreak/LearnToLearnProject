@@ -1,5 +1,5 @@
 import pygame
-from GravityState import GravityState
+from platformer.GravityState import GravityState
 
 
 class gameConstants():
