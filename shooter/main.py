@@ -1,5 +1,10 @@
 import pygame
 from game import Game
+from Library_Interpreter.Dictionnary import Dictionnary
+from Library_Interpreter.Interpreter import Interpreter
+from Library_Interpreter.Summon_Library import Summon_Library
+from shooter.InputBox import InputBox
+
 pygame.init()
 
 # definir une clock
@@ -7,6 +12,10 @@ clock = pygame.time.Clock()
 FPS = 90
 SLOW_MOTION = 10
 
+#définir l'interpréteur de commandes
+dico = Dictionnary([Summon_Library()])
+interpreter = Interpreter(dico)
+input_box = InputBox(150, 0, 140, 32, interpreter)
 
 # generer la fenetre de notre jeu
 pygame.display.set_caption("pts4")
@@ -18,6 +27,9 @@ background = pygame.image.load('./asset/back.png')
 # charger le jeu
 game = Game()
 
+#définir les constantes de saut
+is_jumping = False
+jumping_time = 0
 
 running = True
 
@@ -26,6 +38,10 @@ while running:
 
     # appliquer l'arriere plan du jeu
     screen.blit(background, (0, 0))
+    input_box.draw(screen)
+    input_box.update()
+    if input_box.active:
+        clock.tick(SLOW_MOTION)
 
     # afficher le score
     font = pygame.font.SysFont("monospace", 16)
@@ -72,16 +88,23 @@ while running:
         wave.spawn()
 
     # verifier si le joueur veut aller a gauche ou droite
-    if game.pressed.get(pygame.K_d) and game.player.rect.x < screen.get_width() - 100:
+    if game.pressed.get(pygame.K_d) and game.player.rect.x < screen.get_width() - 100 and not input_box.active:
         game.player.move_right()
-    elif game.pressed.get(pygame.K_q) and game.player.rect.x > -15:
+    elif game.pressed.get(pygame.K_q) and game.player.rect.x > -15 and not input_box.active:
         game.player.move_left()
 
+    #verifier le saut du joueur
+    if game.pressed.get(pygame.K_SPACE) and not input_box.active:
+        game.player.isJump = True
+
+    game.player.jump()
     # mettre a jour l'ecran
     pygame.display.flip()
 
     # si le joueur ferme la fenetre
     for event in pygame.event.get():
+        #event de boîte de dialogue
+        input_box.handle_event(event)
         # que l event est fermeture de fenetre
         if event.type == pygame.QUIT:
             running = False
@@ -97,8 +120,6 @@ while running:
             if event.key == pygame.K_f:
                 game.spawn_wave()
 
-            if event.key == pygame.K_EXCLAIM:
-                clock.tick(SLOW_MOTION)
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False

@@ -2,11 +2,14 @@ import pygame
 import random
 from projectile import Projectile
 
+
 # creer une classe joueur
 class Player(pygame.sprite.Sprite):
 
     def __init__(self, game):
         super().__init__()
+        self.isJump = False
+        self.timeInAir = 0
         self.game = game
         self.health = 100
         self.max_health = 100
@@ -46,3 +49,14 @@ class Player(pygame.sprite.Sprite):
 
     def move_left(self):
         self.rect.x -= self.velocity
+
+    def jump(self):
+        if self.isJump and self.timeInAir == 0:
+            self.rect.y -= 100
+            self.timeInAir += 1
+        elif self.isJump:
+            self.timeInAir += 1
+        if self.timeInAir >= 120:
+            self.timeInAir = 0
+            self.isJump = False
+            self.rect.y += 100
