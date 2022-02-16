@@ -40,11 +40,11 @@ run = True
 while run:
 
     gameConstants.clock.tick(gameConstants.fps)
-
     gameConstants.screen.blit(gameConstants.bg_img, (0, 0))
     gameConstants.screen.blit(gameConstants.sun_img, (100, 100))
     world.draw()
     input_box.draw(gameConstants.screen)
+    world.exit.draw(gameConstants.screen)
     if not input_box.active:
         player.update(world)
     else:

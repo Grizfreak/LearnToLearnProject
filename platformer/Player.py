@@ -72,8 +72,6 @@ class Player:
             self.jumped = False
         if key[pygame.K_q]:
             # print('entered')
-            print(self.gameConstants.gravity)
-            print(self.gameConstants.gravity == GravityState.LEFT)
             # TODO change for all gravities
             if self.gameConstants.gravity == GravityState.BOTTOM:
                 dx -= 5
@@ -101,7 +99,6 @@ class Player:
                 dy -= 5
             self.counter += 1
             self.direction = 1
-            print(dy, dx)
 
         if key[pygame.K_q] == False and key[pygame.K_d] == False:
             self.counter = 0
@@ -155,7 +152,6 @@ class Player:
                 if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
                     # check if below the ground i.e. jumping
                     if self.vel_y < 0:
-                        print('collide')
                         dy = tile[1].bottom - self.rect.top
                         self.vel_y = 0
                         self.vel_x = 0
@@ -174,7 +170,6 @@ class Player:
                 if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
                     # check if below the ground i.e. jumping
                     if self.vel_y >= 0:
-                        print('collide')
                         dy = tile[1].bottom - self.rect.top
                         self.vel_y = 0
                         self.vel_x = 0
@@ -232,8 +227,12 @@ class Player:
             dy = 0
 
         # draw player onto screen
-        self.gameConstants.screen.blit(self.image, self.rect)
-        pygame.draw.rect(self.gameConstants.screen, (255, 255, 255), self.rect, 2)
+        self.draw()
+
+        # check for collision with exit
+        if pygame.sprite.spritecollide(self, world.exit, False):
+            print('célafin')
+            #TODO finish a level
 
     def draw(self):
         self.gameConstants.screen.blit(self.image, self.rect)
