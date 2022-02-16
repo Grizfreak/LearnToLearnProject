@@ -1,4 +1,4 @@
-from StatesEnum import State
+from Library_Interpreter.StatesEnum import State
 
 
 class Interpreter:
@@ -15,7 +15,7 @@ class Interpreter:
         arr = response.lower().split()
         for i in self.dictionnary.arr:
             if i.isUsable(arr[0]):
-                i.summon()
-                match = match + 1
+                i.summon(arr)
+                match += 1
                 break
         if match == 0: print('unable to find any matches')

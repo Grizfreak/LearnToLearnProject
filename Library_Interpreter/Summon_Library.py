@@ -7,5 +7,5 @@ class Summon_Library(Library):
         super().__init__('summon')
 
 
-    def summon(self):
+    def summon(self,arr):
         print('Oh oh oh GOTAGA')
