@@ -1,4 +1,4 @@
-from Library import Library
+from Library_Interpreter.Library import Library
 
 
 class Summon_Library(Library):
