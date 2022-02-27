@@ -16,7 +16,6 @@ class Projectile(pygame.sprite.Sprite):
 
     def remove(self):
         self.player.all_projectiles.remove(self)
-        print("suppression du projectile courant")
 
     def move(self):
         self.rect.x += self.velocity

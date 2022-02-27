@@ -9,6 +9,7 @@ pygame.init()
 
 # definir une clock
 clock = pygame.time.Clock()
+clock_gravity = pygame.time.Clock()
 FPS = 90
 SLOW_MOTION = 10
 
@@ -30,6 +31,10 @@ game = Game()
 #définir les constantes de saut
 is_jumping = False
 jumping_time = 0
+
+# déclancher la gravité du joueur
+gravity = True
+time = 0
 
 running = True
 
@@ -92,6 +97,10 @@ while running:
         game.player.move_right()
     elif game.pressed.get(pygame.K_q) and game.player.rect.x > -15 and not input_box.active:
         game.player.move_left()
+    elif game.pressed.get(pygame.K_z) and game.player.rect.y > 0 and gravity==False:
+        game.player.move_up()
+    elif game.pressed.get(pygame.K_s) and game.player.rect.y < 350 and gravity == False:
+        game.player.move_down()
 
     #verifier le saut du joueur
     if game.pressed.get(pygame.K_SPACE) and not input_box.active:
@@ -120,6 +129,9 @@ while running:
             if event.key == pygame.K_f:
                 game.spawn_wave()
 
+            if event.key == pygame.K_a:
+                print("suppretiopn de la gravité du joueur")
+                gravity = False
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
@@ -129,5 +141,5 @@ while running:
             mouse_presses = pygame.mouse.get_pressed()
             if mouse_presses[0]:
                 game.player.launch_projectile()
-    # fixer le nobre de fps sur la clock
+    # fixer le nombre de fps sur la clock
     clock.tick(FPS)
