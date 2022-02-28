@@ -128,7 +128,6 @@ while running:
 
             if event.key == pygame.K_a:
                 game.player.del_gravity()
-                print(game.player.gravity)
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
