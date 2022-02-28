@@ -11,6 +11,8 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.isJump = False
         self.timeInAir = 0
+        self.isGravityDel = -1
+        self.gravitycount = 0
         self.game = game
         self.health = 100
         self.max_health = 100
@@ -65,17 +67,30 @@ class Player(pygame.sprite.Sprite):
             self.timeInAir += 1
         elif self.isJump:
             self.timeInAir += 1
-        if self.timeInAir >= 120:
+        if self.timeInAir >= 20:
             self.timeInAir = 0
             self.isJump = False
             self.rect.y += 100
 
     def del_gravity(self):
-        i = 0
         print("suppretiopn de la gravité du joueur")
-        while i in range(500):
-            print(i, "seconds passed")
+        if self.isGravityDel == -1:
             self.gravity = False
-            i += 1
-        self.rect.y = 350
-        self.gravity = True
+            self.isGravityDel += 1
+        #Finished effect
+        elif self.isGravityDel == 1:
+            self.rect.y = 350
+            self.gravity = True
+            self.isGravityDel = -1
+
+    def gravitycheck(self):
+        if self.isGravityDel == 0 and self.gravitycount >= 450:
+            self.isGravityDel==1
+            self.rect.y = 350
+            self.gravity = True
+            self.isGravityDel = -1
+            self.gravitycount = 0
+        elif self.isGravityDel == 0:
+            self.gravitycount += 1
+            print(self.gravitycount)
+

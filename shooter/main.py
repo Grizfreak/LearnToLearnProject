@@ -103,6 +103,7 @@ while running:
         game.player.isJump = True
 
     game.player.jump()
+    game.player.gravitycheck()
     # mettre a jour l'ecran
     pygame.display.flip()
 
