@@ -32,10 +32,6 @@ game = Game()
 is_jumping = False
 jumping_time = 0
 
-# déclancher la gravité du joueur
-gravity = True
-time = 0
-
 running = True
 
 # boucle tant que running est true
@@ -97,9 +93,9 @@ while running:
         game.player.move_right()
     elif game.pressed.get(pygame.K_q) and game.player.rect.x > -15 and not input_box.active:
         game.player.move_left()
-    elif game.pressed.get(pygame.K_z) and game.player.rect.y > 0 and gravity==False:
+    elif game.pressed.get(pygame.K_z) and game.player.rect.y > 0 and game.player.gravity==False:
         game.player.move_up()
-    elif game.pressed.get(pygame.K_s) and game.player.rect.y < 350 and gravity == False:
+    elif game.pressed.get(pygame.K_s) and game.player.rect.y < 350 and game.player.gravity==False:
         game.player.move_down()
 
     #verifier le saut du joueur
@@ -130,8 +126,8 @@ while running:
                 game.spawn_wave()
 
             if event.key == pygame.K_a:
-                print("suppretiopn de la gravité du joueur")
-                gravity = False
+                game.player.del_gravity()
+                print(game.player.gravity)
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False

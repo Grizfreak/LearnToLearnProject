@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 from projectile import Projectile
 
 
@@ -20,6 +21,8 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 200
         self.rect.y = 350
+        self.gravity = True
+        self.num_of_secs = 5
 
     def update_attack(self, points):
         if self.attack - points > points:
@@ -66,3 +69,13 @@ class Player(pygame.sprite.Sprite):
             self.timeInAir = 0
             self.isJump = False
             self.rect.y += 100
+
+    def del_gravity(self):
+        i = 0
+        print("suppretiopn de la gravité du joueur")
+        while i in range(500):
+            print(i, "seconds passed")
+            self.gravity = False
+            i += 1
+        self.rect.y = 350
+        self.gravity = True
