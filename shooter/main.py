@@ -2,7 +2,8 @@ import pygame
 from game import Game
 from Library_Interpreter.Dictionnary import Dictionnary
 from Library_Interpreter.Interpreter import Interpreter
-from Library_Interpreter.Summon_Library import Summon_Library
+from Library_Interpreter.Shooter_Librairies.Summon_Library import Summon_Library
+from Library_Interpreter.Shooter_Librairies.Gravity_Library import Gravity_Library
 from shooter.InputBox import InputBox
 
 pygame.init()
@@ -12,11 +13,6 @@ clock = pygame.time.Clock()
 clock_gravity = pygame.time.Clock()
 FPS = 90
 SLOW_MOTION = 10
-
-#définir l'interpréteur de commandes
-dico = Dictionnary([Summon_Library()])
-interpreter = Interpreter(dico)
-input_box = InputBox(150, 0, 140, 32, interpreter)
 
 # generer la fenetre de notre jeu
 pygame.display.set_caption("pts4")
@@ -33,6 +29,11 @@ is_jumping = False
 jumping_time = 0
 
 running = True
+
+#définir l'interpréteur de commandes
+dico = Dictionnary([Summon_Library(game),Gravity_Library(game)])
+interpreter = Interpreter(dico)
+input_box = InputBox(150, 0, 140, 32, interpreter)
 
 # boucle tant que running est true
 while running:
@@ -119,15 +120,6 @@ while running:
         # detecter si un joueur lache une touche du clavier
         elif event.type == pygame.KEYDOWN:
             game.pressed[event.key] = True
-
-            if event.key == pygame.K_e:
-                game.spawn_nuage()
-
-            if event.key == pygame.K_f:
-                game.spawn_wave()
-
-            if event.key == pygame.K_a:
-                game.player.del_gravity()
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
