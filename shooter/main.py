@@ -129,11 +129,6 @@ while running:
             if event.key == pygame.K_a:
                 game.player.del_gravity()
 
-            if event.key == pygame.K_p:
-                print("inversement de la direction des monstres")
-                for monster in game.all_monsters:
-                    monster.is_good = True
-
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
 

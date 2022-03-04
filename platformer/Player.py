@@ -1,9 +1,32 @@
 import pygame
 from gameConstants import *
 from platformer.GravityState import GravityState
-from Library_Interpreter.Gravity_Library import Gravity_Library
+from Library_Interpreter.Platformer_Librairies.Gravity_Library import Gravity_Library
+from Library_Interpreter.Platformer_Librairies.Set_Library import Set_Library
 from Library_Interpreter.Dictionnary import Dictionnary
 
+world_data2 = [
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1],
+    [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 2, 1, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 7, 0, 2, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 1],
+    [1, 7, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 7, 0, 0, 0, 0, 1],
+    [1, 0, 2, 0, 0, 7, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 7, 0, 0, 0, 0, 2, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 2, 2, 2, 2, 2, 1],
+    [1, 0, 0, 0, 0, 0, 2, 2, 2, 6, 6, 6, 6, 6, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
 
 class Player:
     def __init__(self, x, y, gameConstants):
@@ -20,7 +43,7 @@ class Player:
         self.index = 0
         self.counter = 0
         self.gameConstants = gameConstants
-        self.dictionary = Dictionnary([Gravity_Library(self)])
+        self.dictionary = Dictionnary([Gravity_Library(self),Set_Library(self)])
         for num in range(1, 5):
             img_right = pygame.image.load(f'img/guy{num}.png')
             img_right = pygame.transform.scale(img_right, (40, 80))
@@ -43,6 +66,8 @@ class Player:
         self.height = self.image.get_height()
         self.vel_y = 0
         self.vel_x = 0
+        self.speed = 0
+        self.jump_boost = 0
         self.jumped = False
         self.direction = 0
 
@@ -64,9 +89,9 @@ class Player:
             self.gameConstants.gravity = GravityState.BOTTOM
 
         if key[pygame.K_SPACE] and self.jumped == False and self.in_air == False:
-            self.vel_y = -15
+            self.vel_y = -15 - self.jump_boost
             # state gravity case TODO
-            self.vel_x = -15
+            self.vel_x = -15 - self.jump_boost
             self.jumped = True
         if not key[pygame.K_SPACE]:
             self.jumped = False
@@ -74,29 +99,29 @@ class Player:
             # print('entered')
             # TODO change for all gravities
             if self.gameConstants.gravity == GravityState.BOTTOM:
-                dx -= 5
+                dx -= 5+self.speed
             elif self.gameConstants.gravity == GravityState.TOP:
-                dx -= 5
+                dx -= 5+self.speed
             elif self.gameConstants.gravity == GravityState.LEFT:
                 print('entered')
                 print(dy)
-                dy -= 5
+                dy -= 5+self.speed
                 print(dy)
             elif self.gameConstants.gravity == GravityState.RIGHT:
-                dy += 5
+                dy += 5+self.speed
             self.counter += 1
             self.direction = -1
 
         if key[pygame.K_d]:
             # TODO change for all gravities
             if self.gameConstants.gravity == GravityState.BOTTOM:
-                dx += 5
+                dx += 5+self.speed
             elif self.gameConstants.gravity == GravityState.TOP:
-                dx += 5
+                dx += 5+self.speed
             elif self.gameConstants.gravity == GravityState.LEFT:
-                dy += 5
+                dy += 5+self.speed
             elif self.gameConstants.gravity == GravityState.RIGHT:
-                dy -= 5
+                dy -= 5+self.speed
             self.counter += 1
             self.direction = 1
 
@@ -232,6 +257,8 @@ class Player:
         # check for collision with exit
         if pygame.sprite.spritecollide(self, world.exit, False):
             print('célafin')
+            world.set_data(world_data2)
+            return
             #TODO finish a level
 
     def draw(self):
@@ -251,3 +278,9 @@ class Player:
         elif self.gameConstants.gravity == GravityState.RIGHT:
             self.images_left = self.images_left_RIGHT
             self.images_right = self.images_right_RIGHT
+
+    def set_jumpBoost(self,boost):
+        self.jump_boost = boost
+
+    def set_speed(self, boost):
+        self.speed = boost

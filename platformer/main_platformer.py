@@ -30,6 +30,8 @@ world_data = [
     [1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
+
+
 gameConstants = gameConstants()
 player = Player(100, gameConstants.screen_height - 130, gameConstants)
 interpreter = Interpreter(player.dictionary)

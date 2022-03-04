@@ -5,7 +5,7 @@
 
 # Press the green button in the gutter to run the script.
 from Library import Library
-from Summon_Library import Summon_Library
+from Library_Interpreter.Shooter_Librairies.Summon_Library import Summon_Library
 from Interpreter import Interpreter
 from Dictionnary import Dictionnary
 from Test_Library import Test_Library
