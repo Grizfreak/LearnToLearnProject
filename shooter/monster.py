@@ -15,6 +15,7 @@ class Monster(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 1300 + random.randint(0, 300)
         self.rect.y = 375
+        self.is_good = False
 
     def damage(self, amount):
         # infliger les degats
@@ -37,19 +38,32 @@ class Monster(pygame.sprite.Sprite):
 
 
     def forward(self):
-        # le deplacement se fait que si il n'y a pas de joueur
-        if not self.game.check_collision(self, self.game.all_players):
-            self.rect.x -= self.velocity
-        # si le monstre est en colision avec le joueur
+        if not self.is_good:
+            # le deplacement se fait que si il n'y a pas de joueur
+            if not self.game.check_collision(self, self.game.all_players):
+                self.rect.x -= self.velocity
+            # si le monstre est en colision avec le joueur
+            else:
+                # infliger des degats
+                self.game.player.damage(self.attack)
+            if self.rect.x <= 0:
+                self.rect.x = 1300 + random.randint(0, 300)
+                self.rect.y = 375
+            if self.game.check_collision(self, self.game.all_waves):
+                print("monstre se prends la wave en pleine face")
+                self.rect.x += 3
         else:
-            # infliger des degats
-            self.game.player.damage(self.attack)
-        if self.rect.x <= 0:
-            self.rect.x = 1300 + random.randint(0, 300)
-            self.rect.y = 375
-        if self.game.check_collision(self, self.game.all_waves):
-            print("monstre se prends la wave en pleine face")
-            self.rect.x += 3
+            # le deplacement se fait que si il n'y a pas de joueur
+            if not self.game.check_collision(self, self.game.all_players):
+                self.rect.x += self.velocity
+            # si le monstre est en colision avec le joueur
+            else:
+                # infliger des degats
+                self.game.player.damage(self.attack)
+            if self.rect.x >= 1500:
+                self.rect.x = 1300 + random.randint(0, 300)
+                self.rect.y = 375
+                self.is_good = False
 
 
 # definir une class pour le premier monstre
@@ -67,12 +81,27 @@ class Oiseau(Monster):
         self.rect.y = 250
 
     def forward(self):
-        if self.game.check_collision(self, self.game.all_players):
-            # infliger des degats
-            self.game.player.damage(self.attack)
-        else:
-            self.rect.x -= self.velocity
+        if not self.is_good:
+            if self.game.check_collision(self, self.game.all_players):
+                # infliger des degats
+                self.game.player.damage(self.attack)
+            else:
+                self.rect.x -= self.velocity
 
-        if self.rect.x <= - 250:
-            self.rect.x = 1300 + random.randint(0, 300)
-            self.rect.y = 200
+            if self.rect.x <= - 250:
+                self.rect.x = 1300 + random.randint(0, 300)
+                self.rect.y = 200
+
+        else:
+            # le deplacement se fait que si il n'y a pas de joueur
+            if not self.game.check_collision(self, self.game.all_players):
+                self.rect.x += self.velocity
+                print(">>>")
+            # si le monstre est en colision avec le joueur
+            else:
+                # infliger des degats
+                self.game.player.damage(self.attack)
+            if self.rect.x >= 1500:
+                self.rect.x = 1300 + random.randint(0, 300)
+                self.rect.y = 200
+                self.is_good = False
