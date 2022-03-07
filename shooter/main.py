@@ -2,7 +2,7 @@ import pygame
 from game import Game
 from Library_Interpreter.Dictionnary import Dictionnary
 from Library_Interpreter.Interpreter import Interpreter
-from Library_Interpreter.Summon_Library import Summon_Library
+from Library_Interpreter.Shooter_Librairies.Summon_Library import Summon_Library
 from shooter.InputBox import InputBox
 
 pygame.init()
@@ -13,10 +13,6 @@ clock_gravity = pygame.time.Clock()
 FPS = 90
 SLOW_MOTION = 10
 
-#définir l'interpréteur de commandes
-dico = Dictionnary([Summon_Library()])
-interpreter = Interpreter(dico)
-input_box = InputBox(150, 0, 140, 32, interpreter)
 
 # generer la fenetre de notre jeu
 pygame.display.set_caption("pts4")
@@ -27,6 +23,12 @@ background = pygame.image.load('./asset/back.png')
 
 # charger le jeu
 game = Game()
+
+
+#définir l'interpréteur de commandes
+dico = Dictionnary([Summon_Library(game)])
+interpreter = Interpreter(dico)
+input_box = InputBox(150, 0, 140, 32, interpreter)
 
 #définir les constantes de saut
 is_jumping = False
