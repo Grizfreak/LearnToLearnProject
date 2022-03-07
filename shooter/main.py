@@ -3,6 +3,7 @@ from game import Game
 from Library_Interpreter.Dictionnary import Dictionnary
 from Library_Interpreter.Interpreter import Interpreter
 from Library_Interpreter.Shooter_Librairies.Summon_Library import Summon_Library
+from Library_Interpreter.Shooter_Librairies.Gravity_Library import Gravity_Library
 from shooter.InputBox import InputBox
 
 pygame.init()
@@ -26,7 +27,7 @@ game = Game()
 
 
 #définir l'interpréteur de commandes
-dico = Dictionnary([Summon_Library(game)])
+dico = Dictionnary([Summon_Library(game),Gravity_Library(game)])
 interpreter = Interpreter(dico)
 input_box = InputBox(150, 0, 140, 32, interpreter)
 
@@ -122,14 +123,10 @@ while running:
         elif event.type == pygame.KEYDOWN:
             game.pressed[event.key] = True
 
-            if event.key == pygame.K_e:
-                game.spawn_nuage()
-
-            if event.key == pygame.K_f:
-                game.spawn_wave()
-
-            if event.key == pygame.K_a:
-                game.player.del_gravity()
+        if event.key == pygame.K_p:
+            print("inversement de la direction des monstres")
+            for monster in game.all_monsters:
+                monster.is_good = True
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
