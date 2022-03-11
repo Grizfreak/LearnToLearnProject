@@ -11,7 +11,7 @@ class Monster(pygame.sprite.Sprite):
         self.max_health = 100
         self.attack = 0.3
         self.velocity = random.randint(1, 2)
-        self.image = pygame.image.load('./asset/monter(pts4).png')
+        self.image = pygame.image.load('../shooter/asset/monter(pts4).png')
         self.rect = self.image.get_rect()
         self.rect.x = 1300 + random.randint(0, 300)
         self.rect.y = 375
@@ -77,7 +77,7 @@ class Oiseau(Monster):
 
     def __init__(self, game):
         super().__init__(game)
-        self.image = pygame.image.load('./asset/oiseau(pts4).png')
+        self.image = pygame.image.load('../shooter/asset/oiseau(pts4).png')
         self.rect.y = 250
 
     def forward(self):
