@@ -1,5 +1,5 @@
 import pygame
-from gameConstants import *
+from platformer.gameConstants import gameConstants
 from platformer.GravityState import GravityState
 from Library_Interpreter.Platformer_Librairies.Gravity_Library import Gravity_Library
 from Library_Interpreter.Platformer_Librairies.Set_Library import Set_Library
@@ -28,7 +28,7 @@ world_data2 = [
     [1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
-class Player:
+class Player():
     def __init__(self, x, y, gameConstants):
         self.images_right = []
         self.images_left = []

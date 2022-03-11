@@ -1,7 +1,7 @@
 import pygame
 import random
 import time
-from projectile import Projectile
+from shooter.projectile import Projectile
 
 
 # creer une classe joueur

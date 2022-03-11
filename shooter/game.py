@@ -1,9 +1,9 @@
 import pygame
-from player import Player
-from monster import Monster, Vampire, Oiseau
-from thunder import Thunder
-from nuage import Nuage
-from wave import Wave
+from shooter.player import Player
+from shooter.monster import Monster, Vampire, Oiseau
+from shooter.thunder import Thunder
+from shooter.nuage import Nuage
+from shooter.wave import Wave
 
 
 # classe du jeu
