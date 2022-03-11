@@ -59,6 +59,8 @@ class Player:
             self.images_left_RIGHT.append(pygame.transform.rotate(img_left,90))
             self.images_right_RIGHT.append(pygame.transform.rotate(img_right,90))
         self.image = self.images_right[self.index]
+        #self.images_left_RIGHT[0].get_rect()
+        #self.image.get_rect()
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -208,7 +210,7 @@ class Player:
 
             elif self.gameConstants.gravity == GravityState.LEFT:
                 # check for collision in x direction
-                if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
+                if tile[1].colliderect(self.rect.x +dx, self.rect.y, self.width, self.height):
                     # check if below the ground i.e. jumping
                     if self.vel_x < 0:
                         dx = tile[1].left - self.rect.right
@@ -235,12 +237,14 @@ class Player:
                         self.in_air = False
                     # check if above the ground i.e. falling
                     elif self.vel_x < 0:
+                        print("falling")
                         dx = tile[1].right - self.rect.left
                         self.vel_y = 0
                         self.vel_x = 0
 
                 # check for collision in y direction
                 if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
+
                     dy = 0
 
         # update player coordinates
@@ -266,18 +270,34 @@ class Player:
         pygame.draw.rect(self.gameConstants.screen, (255, 255, 255), self.rect, 2)
 
     def changeSprite(self):
+        x = self.rect.x
+        y = self.rect.y
         if self.gameConstants.gravity == GravityState.BOTTOM:
             self.images_left = self.images_left_BOTTOM
             self.images_right = self.images_right_BOTTOM
+            self.rect = self.images_left_BOTTOM[0].get_rect()
+            self.width = self.images_left_BOTTOM[0].get_width()
+            self.height = self.images_left_BOTTOM[0].get_height()
         elif self.gameConstants.gravity == GravityState.TOP:
             self.images_left = self.images_left_TOP
             self.images_right = self.images_right_TOP
+            self.rect = self.images_left_TOP[0].get_rect()
+            self.width = self.images_left_TOP[0].get_width()
+            self.height = self.images_left_TOP[0].get_height()
         elif self.gameConstants.gravity == GravityState.LEFT:
             self.images_left = self.images_left_LEFT
             self.images_right = self.images_right_LEFT
+            self.rect = self.images_left_LEFT[0].get_rect()
+            self.width = self.images_left_LEFT[0].get_width()
+            self.height = self.images_left_LEFT[0].get_height()
         elif self.gameConstants.gravity == GravityState.RIGHT:
             self.images_left = self.images_left_RIGHT
             self.images_right = self.images_right_RIGHT
+            self.rect = self.images_left_RIGHT[0].get_rect()
+            self.width = self.images_left_RIGHT[0].get_width()
+            self.height = self.images_left_RIGHT[0].get_height()
+        self.rect.y = y
+        self.rect.x = x
 
     def set_jumpBoost(self,boost):
         self.jump_boost = boost
