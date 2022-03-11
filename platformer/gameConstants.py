@@ -20,8 +20,8 @@ class gameConstants():
         self.tile_size = 50
 
         # load images
-        self.sun_img = pygame.image.load(os.path.join(os.path.realpath('img/sun.png')))
-        self.bg_img = pygame.image.load('img/sky.png')
+        self.sun_img = pygame.image.load('../platformer/img/sun.png')
+        self.bg_img = pygame.image.load('../platformer/img/sky.png')
 
         self.COLOR_INACTIVE = pygame.Color('lightskyblue3')
         self.COLOR_ACTIVE = pygame.Color('dodgerblue2')

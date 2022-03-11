@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from World import World
 from Player import Player
-from InputBox import InputBox
+from P_InputBox import P_InputBox
 from gameConstants import gameConstants
 from Library_Interpreter.Interpreter import Interpreter
 
@@ -33,7 +33,7 @@ world_data = [
 gameConstants = gameConstants()
 player = Player(100, gameConstants.screen_height - 130, gameConstants)
 interpreter = Interpreter(player.dictionary)
-input_box = InputBox(400, 900, 140, 32, gameConstants, interpreter)
+input_box = P_InputBox(400, 900, 140, 32, gameConstants, interpreter)
 world = World(world_data, gameConstants)
 
 run = True

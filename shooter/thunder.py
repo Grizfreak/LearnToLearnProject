@@ -9,7 +9,7 @@ class Thunder(pygame.sprite.Sprite):
         super().__init__()
         self.velocity = random.randint(10, 20)
         # definir l'image
-        self.image = pygame.image.load('./asset/thunder.png')
+        self.image = pygame.image.load('../shooter/asset/thunder.png')
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
         self.rect.x = random.randint(250, 1300)

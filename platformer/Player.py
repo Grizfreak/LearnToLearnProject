@@ -45,7 +45,7 @@ class Player():
         self.gameConstants = gameConstants
         self.dictionary = Dictionnary([Gravity_Library(self),Set_Library(self)])
         for num in range(1, 5):
-            img_right = pygame.image.load(f'img/guy{num}.png')
+            img_right = pygame.image.load(f'../platformer/img/guy{num}.png')
             img_right = pygame.transform.scale(img_right, (40, 80))
             img_left = pygame.transform.flip(img_right, True, False)
             self.images_right.append(img_right)
