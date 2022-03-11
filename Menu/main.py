@@ -19,7 +19,8 @@ pygame.display.flip()
 
 def main_menu():
     while True:
-
+        screen = pygame.display.set_mode((750, 650))
+        screen.fill((0,0,0))
         font = pygame.font.SysFont("monospace", 20, True)
         text = font.render("MENU", True, (255, 255, 255))
         screen.blit(text, (350, 100))
@@ -64,7 +65,7 @@ def shooter_game():
     screen = pygame.display.set_mode((1400, 650))
 
     # importer l'arriere plan du jeu
-    background = pygame.image.load('./asset/back.png')
+    background = pygame.image.load('../shooter/asset/back.png')
 
     # charger le jeu
     game = Game()
@@ -82,7 +83,7 @@ def shooter_game():
 
     # boucle tant que running est true
     while running:
-
+        screen.fill((0,0,0))
         # appliquer l'arriere plan du jeu
         screen.blit(background, (0, 0))
         input_box.draw(screen)
@@ -164,11 +165,6 @@ def shooter_game():
             elif event.type == pygame.KEYDOWN:
                 game.pressed[event.key] = True
 
-                if event.key == pygame.K_p:
-                    print("inversement de la direction des monstres")
-                    for monster in game.all_monsters:
-                        monster.is_good = True
-
             elif event.type == pygame.KEYUP:
                 game.pressed[event.key] = False
 
@@ -178,7 +174,9 @@ def shooter_game():
                 if mouse_presses[0]:
                     game.player.launch_projectile()
         # fixer le nombre de fps sur la clock
+        pygame.display.update()
         clock.tick(FPS)
+
 
 
 def platformer_game():

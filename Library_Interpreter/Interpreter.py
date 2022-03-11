@@ -13,6 +13,7 @@ class Interpreter:
     def interprete_command(self, response):
         match = 0
         arr = response.lower().split()
+
         for i in self.dictionnary.arr:
             if i.isUsable(arr[0]):
                 i.summon(arr)

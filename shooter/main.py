@@ -123,11 +123,6 @@ while running:
         elif event.type == pygame.KEYDOWN:
             game.pressed[event.key] = True
 
-            if event.key == pygame.K_p:
-                print("inversement de la direction des monstres")
-                for monster in game.all_monsters:
-                    monster.is_good = True
-
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
 
