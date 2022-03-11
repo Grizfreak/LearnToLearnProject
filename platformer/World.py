@@ -1,5 +1,5 @@
 import pygame
-from gameConstants import *
+from platformer.gameConstants import gameConstants
 from platformer.Exit import Exit
 
 
