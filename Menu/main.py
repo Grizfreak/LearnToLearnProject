@@ -7,7 +7,8 @@ from Library_Interpreter.Shooter_Librairies.Summon_Library import Summon_Library
 from platformer.Player import Player
 from platformer.gameConstants import gameConstants
 from platformer.World import World
-from shooter.InputBox import InputBox
+from platformer.P_InputBox import P_InputBox
+from shooter.S_InputBox import S_InputBox
 from shooter.game import Game
 
 pygame.init()
@@ -19,7 +20,8 @@ pygame.display.flip()
 
 def main_menu():
     while True:
-
+        screen = pygame.display.set_mode((750, 650))
+        screen.fill((0,0,0))
         font = pygame.font.SysFont("monospace", 20, True)
         text = font.render("MENU", True, (255, 255, 255))
         screen.blit(text, (350, 100))
@@ -64,7 +66,7 @@ def shooter_game():
     screen = pygame.display.set_mode((1400, 650))
 
     # importer l'arriere plan du jeu
-    background = pygame.image.load('./asset/back.png')
+    background = pygame.image.load('../shooter/asset/back.png')
 
     # charger le jeu
     game = Game()
@@ -72,7 +74,7 @@ def shooter_game():
     # définir l'interpréteur de commandes
     dico = Dictionnary([Summon_Library(game), Gravity_Library(game)])
     interpreter = Interpreter(dico)
-    input_box = InputBox(150, 0, 140, 32, interpreter)
+    input_box = S_InputBox(150, 0, 140, 32, interpreter)
 
     # définir les constantes de saut
     is_jumping = False
@@ -82,7 +84,7 @@ def shooter_game():
 
     # boucle tant que running est true
     while running:
-
+        screen.fill((0,0,0))
         # appliquer l'arriere plan du jeu
         screen.blit(background, (0, 0))
         input_box.draw(screen)
@@ -164,11 +166,6 @@ def shooter_game():
             elif event.type == pygame.KEYDOWN:
                 game.pressed[event.key] = True
 
-                if event.key == pygame.K_p:
-                    print("inversement de la direction des monstres")
-                    for monster in game.all_monsters:
-                        monster.is_good = True
-
             elif event.type == pygame.KEYUP:
                 game.pressed[event.key] = False
 
@@ -178,7 +175,9 @@ def shooter_game():
                 if mouse_presses[0]:
                     game.player.launch_projectile()
         # fixer le nombre de fps sur la clock
+        pygame.display.update()
         clock.tick(FPS)
+
 
 
 def platformer_game():
@@ -208,7 +207,7 @@ def platformer_game():
     gameconstants = gameConstants()
     player = Player(100, gameconstants.screen_height - 130, gameconstants)
     interpreter = Interpreter(player.dictionary)
-    input_box = InputBox(400, 900, 140, 32, gameconstants, interpreter)
+    input_box = P_InputBox(400, 900, 140, 32, gameconstants, interpreter)
     world = World(world_data, gameconstants)
 
     run = True

@@ -19,7 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.attack = 15
         self.velocity = 3
         self.all_projectiles = pygame.sprite.Group()
-        self.image = pygame.image.load('./asset/player(pts4).png')
+        self.image = pygame.image.load('../shooter/asset/player(pts4).png')
         self.rect = self.image.get_rect()
         self.rect.x = 200
         self.rect.y = 350

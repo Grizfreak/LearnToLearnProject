@@ -11,4 +11,4 @@ class Summon_Library(Library):
         if arr[1] == "thunder":
             self.game.spawn_nuage()
         if arr[1] == 'wave':
-            selft.game.spawn_wave()
+            self.game.spawn_wave()
