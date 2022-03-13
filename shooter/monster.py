@@ -1,17 +1,17 @@
 import pygame
 import random
+import animation
 
 
-class Monster(pygame.sprite.Sprite):
+class Monster(animation.AnimateSprite):
 
-    def __init__(self, game):
-        super().__init__()
+    def __init__(self, game, name):
+        super().__init__(name)
         self.game = game
         self.health = 100
         self.max_health = 100
         self.attack = 0.3
         self.velocity = random.randint(1, 2)
-        self.image = pygame.image.load('../shooter/asset/monter(pts4).png')
         self.rect = self.image.get_rect()
         self.rect.x = 1300 + random.randint(0, 300)
         self.rect.y = 375
@@ -29,6 +29,9 @@ class Monster(pygame.sprite.Sprite):
             self.game.player.update_attack(1)
             # ajout du score
             self.game.score += 10
+
+    def update_animation(self):
+        self.animate()
 
     def update_health_bar(self, surface):
 
@@ -70,14 +73,13 @@ class Monster(pygame.sprite.Sprite):
 class Vampire(Monster):
 
     def __init__(self, game):
-        super().__init__(game)
+        super().__init__(game, "monster")
 
 # definir une class pour le deuxieme monstre
 class Oiseau(Monster):
 
     def __init__(self, game):
-        super().__init__(game)
-        self.image = pygame.image.load('../shooter/asset/oiseau(pts4).png')
+        super().__init__(game, "oiseau")
         self.rect.y = 250
 
     def forward(self):
