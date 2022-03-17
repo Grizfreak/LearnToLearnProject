@@ -9,7 +9,7 @@ class AnimateSprite(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.image.load(f'./asset/{sprite_name}.png')
         self.current_image = 0
-        self.images = animations.get('monster')
+        self.images = animations.get(sprite_name)
 
     # fonction pour animer le sprite
     def animate(self):
