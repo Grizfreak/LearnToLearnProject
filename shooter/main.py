@@ -56,7 +56,10 @@ while running:
     screen.blit(game.player.image, game.player.rect)
 
     # actualiser la bar de vie du joueur
+    is_shielded = False
     game.player.update_health_bar(screen)
+    if is_shielded:
+        game.player.add_health(screen)
 
     # recuperer les projectile du joueur
     for projectile in game.player.all_projectiles:
@@ -123,6 +126,10 @@ while running:
         # detecter si un joueur lache une touche du clavier
         elif event.type == pygame.KEYDOWN:
             game.pressed[event.key] = True
+
+            if event.key == pygame.K_a:
+                is_shielded = True
+                print('shield activated')
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
