@@ -107,3 +107,16 @@ class Oiseau(Monster):
                 self.rect.x = 1300 + random.randint(0, 300)
                 self.rect.y = 200
                 self.is_good = False
+
+    def damage(self, amount):
+        # infliger les degats
+        self.health -= amount + 99
+
+        # verifier si son nvx nombres de hp <= 0
+        if self.health <= 0:
+            self.rect.x = 1300 + random.randint(0, 300)
+            self.velocity = random.randint(1, 2)
+            self.health = self.max_health
+            self.game.player.update_attack(1)
+            # ajout du score
+            self.game.score += 10
