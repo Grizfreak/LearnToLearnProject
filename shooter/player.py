@@ -15,6 +15,7 @@ class Player(pygame.sprite.Sprite):
         self.gravitycount = 0
         self.game = game
         self.health = 100
+        self.shield = 25
         self.max_health = 100
         self.attack = 15
         self.velocity = 3
@@ -43,6 +44,10 @@ class Player(pygame.sprite.Sprite):
         pygame.draw.rect(surface, (60, 63, 60), [self.rect.x - 10, self.rect.y - 10, self.max_health, 5])
         pygame.draw.rect(surface, (111, 210, 46), [self.rect.x - 10, self.rect.y - 10, self.health, 5])
 
+    def add_health(self, surface):
+        # dessiner la barre de vie supplémentaire
+        pygame.draw.rect(surface, (0, 128, 255), [self.rect.x + self.health, self.rect.y - 10, self.health + self.shield, 5] )
+
     def launch_projectile(self):
         # creer une nouvelle instance le la classe projectile
         self.all_projectiles.add(Projectile(self))
@@ -63,14 +68,14 @@ class Player(pygame.sprite.Sprite):
 
     def jump(self):
         if self.isJump and self.timeInAir == 0:
-            self.rect.y -= 100
+            self.rect.y -= 150
             self.timeInAir += 1
         elif self.isJump:
             self.timeInAir += 1
         if self.timeInAir >= 20:
             self.timeInAir = 0
             self.isJump = False
-            self.rect.y += 100
+            self.rect.y += 150
 
     def del_gravity(self):
         print("suppretiopn de la gravité du joueur")
