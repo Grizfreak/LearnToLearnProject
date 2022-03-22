@@ -1,5 +1,5 @@
-from Library_Interpreter.Library import Library
-from platformer.GravityState import GravityState
+from data.Library_Interpreter.Library import Library
+from data.platformer.GravityState import GravityState
 
 
 class Gravity_Library(Library):

@@ -1,4 +1,4 @@
-from Library_Interpreter.StatesEnum import State
+from data.Library_Interpreter.StatesEnum import State
 
 
 class Interpreter:

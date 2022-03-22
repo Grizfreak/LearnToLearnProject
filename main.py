@@ -1,18 +1,18 @@
 import pygame
 import subprocess
 
-from Library_Interpreter.Dictionnary import Dictionnary
-from Library_Interpreter.Interpreter import Interpreter
-from Library_Interpreter.Shooter_Librairies.Gravity_Library import Gravity_Library
-from Library_Interpreter.Shooter_Librairies.Summon_Library import Summon_Library
-from Library_Interpreter.Shooter_Librairies.Shield_Library import Shield_Library
-from platformer.Player import Player
-from platformer.World_data import World_data
-from platformer.gameConstants import gameConstants
-from platformer.World import World
-from platformer.P_InputBox import P_InputBox
-from shooter.S_InputBox import S_InputBox
-from shooter.game import Game
+from data.Library_Interpreter.Dictionnary import Dictionnary
+from data.Library_Interpreter.Interpreter import Interpreter
+from data.Library_Interpreter.Shooter_Librairies.Gravity_Library import Gravity_Library
+from data.Library_Interpreter.Shooter_Librairies.Summon_Library import Summon_Library
+from data.Library_Interpreter.Shooter_Librairies.Shield_Library import Shield_Library
+from data.platformer.Player import Player
+from data.platformer.World_data import World_data
+from data.platformer.gameConstants import gameConstants
+from data.platformer.World import World
+from data.platformer.P_InputBox import P_InputBox
+from data.shooter.S_InputBox import S_InputBox
+from data.shooter.game import Game
 
 pygame.init()
 pygame.display.set_caption("pts4_menu")
@@ -28,14 +28,9 @@ def main_menu():
         text = font.render("MENU", True, (255, 255, 255))
         screen.blit(text, (350, 100))
         # boutons
-        if lastScore != 0 :
-            print("entered")
-            myfont = pygame.font.SysFont('Comic Sans MS', 30)
-            textsurface = myfont.render(lastScore, False, (0, 0, 0))
-            screen.blit(textsurface, (0, 0))
-        button_shooter = pygame.image.load('./asset/bouton_shooter(pts4).png')
-        button_plat = pygame.image.load('./asset/bouton_platformer(pts4).png')
-        button_guide = pygame.image.load('./asset/button_guide.png')
+        button_shooter = pygame.image.load('./data/Menu/asset/bouton_shooter(pts4).png')
+        button_plat = pygame.image.load('./data/Menu/asset/bouton_platformer(pts4).png')
+        button_guide = pygame.image.load('./data/Menu/asset/button_guide.png')
         button_shooter = pygame.transform.scale(button_shooter, (100, 100))
         button_plat = pygame.transform.scale(button_plat, (100, 100))
         button_guide = pygame.transform.scale(button_guide, (100,100))
@@ -68,6 +63,7 @@ def main_menu():
                 running = False
                 pygame.quit()
                 print("game quit")
+                return
         pygame.display.update()
 
 
@@ -82,7 +78,7 @@ def shooter_game():
     screen = pygame.display.set_mode((1400, 650))
 
     # importer l'arriere plan du jeu
-    background = pygame.image.load('../shooter/asset/back.png')
+    background = pygame.image.load('./data/shooter/asset/back.png')
 
     # charger le jeu
     game = Game()

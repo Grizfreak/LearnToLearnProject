@@ -1,10 +1,10 @@
 import pygame
 from game import Game
-from Library_Interpreter.Dictionnary import Dictionnary
-from Library_Interpreter.Interpreter import Interpreter
-from Library_Interpreter.Shooter_Librairies.Summon_Library import Summon_Library
-from Library_Interpreter.Shooter_Librairies.Gravity_Library import Gravity_Library
-from shooter.S_InputBox import S_InputBox
+from data.Library_Interpreter.Dictionnary import Dictionnary
+from data.Library_Interpreter.Interpreter import Interpreter
+from data.Library_Interpreter.Shooter_Librairies.Summon_Library import Summon_Library
+from data.Library_Interpreter.Shooter_Librairies.Gravity_Library import Gravity_Library
+from data.shooter.S_InputBox import S_InputBox
 
 pygame.init()
 

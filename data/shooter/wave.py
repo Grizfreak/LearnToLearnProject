@@ -6,7 +6,7 @@ class Wave(pygame.sprite.Sprite):
     def __init__(self, game):
         super().__init__()
         self.velocity = 3
-        self.image = pygame.image.load('../shooter/asset/wave.png')
+        self.image = pygame.image.load('./data/shooter/asset/wave.png')
         # self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
         self.rect.x = - 500

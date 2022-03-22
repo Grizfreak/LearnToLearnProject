@@ -1,10 +1,9 @@
 import pygame
-from platformer.gameConstants import gameConstants
-from platformer.GravityState import GravityState
-from Library_Interpreter.Platformer_Librairies.Gravity_Library import Gravity_Library
-from Library_Interpreter.Platformer_Librairies.Set_Library import Set_Library
-from Library_Interpreter.Dictionnary import Dictionnary
-from platformer.World_data import World_data
+from data.platformer.GravityState import GravityState
+from data.Library_Interpreter.Platformer_Librairies.Gravity_Library import Gravity_Library
+from data.Library_Interpreter.Platformer_Librairies.Set_Library import Set_Library
+from data.Library_Interpreter.Dictionnary import Dictionnary
+from data.platformer.World_data import World_data
 
 class Player():
     def __init__(self, x, y, gameConstants):
@@ -25,7 +24,7 @@ class Player():
         self.gameConstants = gameConstants
         self.dictionary = Dictionnary([Gravity_Library(self),Set_Library(self)])
         for num in range(1, 5):
-            img_right = pygame.image.load(f'../platformer/img/guy{num}.png')
+            img_right = pygame.image.load(f'./data/platformer/img/guy{num}.png')
             img_right = pygame.transform.scale(img_right, (40, 80))
             img_left = pygame.transform.flip(img_right, True, False)
             self.images_right.append(img_right)

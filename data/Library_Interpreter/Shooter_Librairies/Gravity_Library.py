@@ -1,4 +1,4 @@
-from Library_Interpreter.Library import Library
+from data.Library_Interpreter.Library import Library
 
 
 class Gravity_Library(Library):
