@@ -9,11 +9,13 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self, game):
         super().__init__()
+        self.hasFinished = False
         self.isJump = False
         self.timeInAir = 0
         self.isGravityDel = -1
         self.gravitycount = 0
         self.game = game
+        self.is_shielded = False
         self.health = 100
         self.shield = 25
         self.max_shield = 25
@@ -40,8 +42,8 @@ class Player(pygame.sprite.Sprite):
         if not self.isShielded:
             if self.health - amount > amount:
                 self.health -= amount
-                if self.health <= 0:
-                    print("Joueur mort")
+                if self.health <= 1:
+                    self.hasFinished = True
         elif self.shield - amount > amount:
                 self.shield -= amount
                 if self.shield <= 1:
