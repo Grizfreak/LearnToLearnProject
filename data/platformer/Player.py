@@ -248,7 +248,6 @@ class Player():
 
     def draw(self):
         self.gameConstants.screen.blit(self.image, self.rect)
-        pygame.draw.rect(self.gameConstants.screen, (255, 255, 255), self.rect, 2)
 
     def changeSprite(self):
         x = self.rect.x
