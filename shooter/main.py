@@ -34,7 +34,7 @@ input_box = S_InputBox(150, 0, 140, 32, interpreter)
 #définir les constantes de saut
 is_jumping = False
 jumping_time = 0
-
+is_shielded = False
 running = True
 
 # boucle tant que running est true
@@ -56,7 +56,6 @@ while running:
     screen.blit(game.player.image, game.player.rect)
 
     # actualiser la bar de vie du joueur
-    is_shielded = False
     game.player.update_health_bar(screen)
     if is_shielded:
         game.player.add_health(screen)

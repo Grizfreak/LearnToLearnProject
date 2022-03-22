@@ -114,6 +114,7 @@ def shooter_game():
         for monster in game.all_monsters:
             monster.forward()
             monster.update_health_bar(screen)
+            monster.update_animation()
 
         # appliquer l'ensemble des images du groupe de projectiles
         game.player.all_projectiles.draw(screen)
