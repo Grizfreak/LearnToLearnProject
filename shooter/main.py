@@ -128,7 +128,7 @@ while running:
 
             if event.key == pygame.K_a:
                 is_shielded = True
-                print('shield activated')
+                game.player.actived_shield()
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False

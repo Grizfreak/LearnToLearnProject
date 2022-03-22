@@ -89,7 +89,7 @@ def shooter_game():
     # définir les constantes de saut
     is_jumping = False
     jumping_time = 0
-
+    is_shielded = False
     running = True
 
     # boucle tant que running est true
@@ -112,6 +112,8 @@ def shooter_game():
 
         # actualiser la bar de vie du joueur
         game.player.update_health_bar(screen)
+        if is_shielded:
+            game.player.add_health(screen)
 
         # recuperer les projectile du joueur
         for projectile in game.player.all_projectiles:
@@ -180,7 +182,7 @@ def shooter_game():
 
                 if event.key == pygame.K_a:
                     is_shielded = True
-                    print('shield activated')
+                    game.player.actived_shield()
 
             elif event.type == pygame.KEYUP:
                 game.pressed[event.key] = False

@@ -16,6 +16,8 @@ class Player(pygame.sprite.Sprite):
         self.game = game
         self.health = 100
         self.shield = 25
+        self.max_shield = 25
+        self.isShielded = False
         self.max_health = 100
         self.attack = 15
         self.velocity = 3
@@ -35,9 +37,17 @@ class Player(pygame.sprite.Sprite):
 
     def damage(self, amount):
         # infliger les degats
-        if self.health - amount > amount:
-            self.health -= amount
-            print("Joueur mort")
+        if not self.isShielded:
+            if self.health - amount > amount:
+                self.health -= amount
+                if self.health <= 0:
+                    print("Joueur mort")
+        elif self.shield - amount > amount:
+                self.shield -= amount
+                if self.shield <= 1:
+                    print("Bouclier brisé")
+                    self.isShielded = False
+
 
     def update_health_bar(self, surface):
         # dessiner la barre de vie
@@ -46,11 +56,16 @@ class Player(pygame.sprite.Sprite):
 
     def add_health(self, surface):
         # dessiner la barre de vie supplémentaire
-        pygame.draw.rect(surface, (0, 128, 255), [self.rect.x + self.health, self.rect.y - 10, self.health + self.shield, 5] )
+        pygame.draw.rect(surface, (0, 128, 255), [self.rect.x - 10, self.rect.y - 15, self.shield, 5] )
 
     def launch_projectile(self):
         # creer une nouvelle instance le la classe projectile
         self.all_projectiles.add(Projectile(self))
+
+    def actived_shield(self):
+        self.isShielded = True
+        self.shield = self.max_shield
+        print('shield activated')
 
     def move_right(self):
         # si le joueur n'est pas en collision avec une entité monstre
