@@ -1,9 +1,9 @@
 import pygame
 import random
-import animation
+from shooter.animation import AnimateSprite
 
 
-class Monster(animation.AnimateSprite):
+class Monster(AnimateSprite):
 
     def __init__(self, game, name):
         super().__init__(name)

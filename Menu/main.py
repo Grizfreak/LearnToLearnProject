@@ -1,19 +1,17 @@
 import pygame
+import subprocess
+
 from Library_Interpreter.Dictionnary import Dictionnary
 from Library_Interpreter.Interpreter import Interpreter
 from Library_Interpreter.Shooter_Librairies.Gravity_Library import Gravity_Library
 from Library_Interpreter.Shooter_Librairies.Summon_Library import Summon_Library
 from platformer.Player import Player
-from platformer.World_data import World_data
 from platformer.gameConstants import gameConstants
 from platformer.World import World
 from platformer.P_InputBox import P_InputBox
 from shooter.S_InputBox import S_InputBox
 from shooter.game import Game
 
-import os
-x, y = 360, 50
-os.environ['SDL_VIDEO_WINDOW_POS'] = "{},{}".format(x,y)
 pygame.init()
 
 pygame.display.set_caption("pts4_menu")
@@ -24,23 +22,29 @@ pygame.display.flip()
 def main_menu():
     while True:
         screen = pygame.display.set_mode((750, 650))
-        screen.fill((0, 0, 0))
+        screen.fill((0,0,0))
         font = pygame.font.SysFont("monospace", 20, True)
         text = font.render("MENU", True, (255, 255, 255))
         screen.blit(text, (350, 100))
         # boutons
         button_shooter = pygame.image.load('./asset/bouton_shooter(pts4).png')
-        button_plat = pygame.image.load('./asset/vouton_platformeur(pts4).png')
+        button_plat = pygame.image.load('./asset/bouton_platformer(pts4).png')
+        button_guide = pygame.image.load('./asset/button_guide.png')
         button_shooter = pygame.transform.scale(button_shooter, (100, 100))
         button_plat = pygame.transform.scale(button_plat, (100, 100))
+        button_guide = pygame.transform.scale(button_guide, (100,100))
         button_shooter_rect = button_shooter.get_rect()
         button_plat_rect = button_plat.get_rect()
+        button_guide_rect = button_guide.get_rect()
         button_shooter_rect.x = 150
         button_shooter_rect.y = 150
         button_plat_rect.x = 450
         button_plat_rect.y = 150
+        button_guide_rect.x = 300
+        button_guide_rect.y = 300
         screen.blit(button_shooter, button_shooter_rect)
         screen.blit(button_plat, button_plat_rect)
+        screen.blit(button_guide, button_guide_rect)
 
         pygame.display.flip()
         for event in pygame.event.get():
@@ -51,6 +55,9 @@ def main_menu():
                 if button_plat_rect.collidepoint(event.pos):
                     print('click platformer')
                     platformer_game()
+                if button_guide_rect.collidepoint(event.pos):
+                    print('click guide')
+                    openGuide()
             if event.type == pygame.QUIT:
                 running = False
                 pygame.quit()
@@ -87,7 +94,7 @@ def shooter_game():
 
     # boucle tant que running est true
     while running:
-        screen.fill((0, 0, 0))
+        screen.fill((0,0,0))
         # appliquer l'arriere plan du jeu
         screen.blit(background, (0, 0))
         input_box.draw(screen)
@@ -163,12 +170,17 @@ def shooter_game():
         for event in pygame.event.get():
             # event de boîte de dialogue
             input_box.handle_event(event)
+
             # que l event est fermeture de fenetre
             if event.type == pygame.QUIT:
                 running = False
             # detecter si un joueur lache une touche du clavier
             elif event.type == pygame.KEYDOWN:
                 game.pressed[event.key] = True
+
+                if event.key == pygame.K_a:
+                    is_shielded = True
+                    print('shield activated')
 
             elif event.type == pygame.KEYUP:
                 game.pressed[event.key] = False
@@ -183,13 +195,36 @@ def shooter_game():
         clock.tick(FPS)
 
 
+
 def platformer_game():
+    world_data = [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 1],
+        [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 2, 2, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 7, 0, 2, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 1],
+        [1, 7, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 7, 0, 0, 0, 0, 1],
+        [1, 0, 2, 0, 0, 7, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 7, 0, 0, 0, 0, 2, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 2, 2, 2, 2, 2, 1],
+        [1, 0, 0, 0, 0, 0, 2, 2, 2, 6, 6, 6, 6, 6, 1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    ]
+
     gameconstants = gameConstants()
     player = Player(100, gameconstants.screen_height - 130, gameconstants)
     interpreter = Interpreter(player.dictionary)
     input_box = P_InputBox(400, 900, 140, 32, gameconstants, interpreter)
-    world = World(World_data().world_data_arr[1], gameconstants)
-    #gameconstants.actualLevel
+    world = World(world_data, gameconstants)
 
     run = True
     while run:
@@ -205,9 +240,6 @@ def platformer_game():
         else:
             player.draw()
 
-        if player.hasFinished:
-            run = False
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -218,5 +250,7 @@ def platformer_game():
         input_box.update()
         pygame.display.update()
 
+def openGuide():
+    subprocess.Popen(["#todo"], shell=True)
 
 main_menu()

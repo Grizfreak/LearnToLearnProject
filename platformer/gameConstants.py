@@ -8,7 +8,7 @@ class gameConstants():
     def __init__(self):
         self.clock = pygame.time.Clock()
         self.fps = 60
-        self.actualLevel = 0
+
         self.screen_width = 1000
         self.screen_height = 1000
         self.gravity = GravityState.BOTTOM
