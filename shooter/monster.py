@@ -80,7 +80,7 @@ class Oiseau(Monster):
 
     def __init__(self, game):
         super().__init__(game, "oiseau")
-        self.rect.y = 250
+        self.rect.y = 280
 
     def forward(self):
         if not self.is_good:
@@ -92,7 +92,6 @@ class Oiseau(Monster):
 
             if self.rect.x <= - 250:
                 self.rect.x = 1300 + random.randint(0, 300)
-                self.rect.y = 200
 
         else:
             # le deplacement se fait que si il n'y a pas de joueur
