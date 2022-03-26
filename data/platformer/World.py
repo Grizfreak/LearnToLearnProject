@@ -1,6 +1,5 @@
 import pygame
-from platformer.gameConstants import gameConstants
-from platformer.Exit import Exit
+from data.platformer.Exit import Exit
 
 
 class World():
@@ -23,8 +22,8 @@ class World():
 
     def update_data(self):
         # load images
-        dirt_img = pygame.image.load('../platformer/img/dirt.png')
-        grass_img = pygame.image.load('../platformer/img/grass.png')
+        dirt_img = pygame.image.load('./data/platformer/img/dirt.png')
+        grass_img = pygame.image.load('./data/platformer/img/grass.png')
         row_count = 0
         for row in self.data:
             col_count = 0

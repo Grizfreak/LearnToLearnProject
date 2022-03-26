@@ -1,6 +1,6 @@
 import pygame
 import random
-from shooter.animation import AnimateSprite
+from data.shooter.animation import AnimateSprite
 
 
 class Monster(AnimateSprite):

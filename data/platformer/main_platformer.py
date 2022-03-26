@@ -4,7 +4,7 @@ from World import World
 from Player import Player
 from P_InputBox import P_InputBox
 from gameConstants import gameConstants
-from Library_Interpreter.Interpreter import Interpreter
+from data.Library_Interpreter.Interpreter import Interpreter
 
 pygame.init()
 world_data = [

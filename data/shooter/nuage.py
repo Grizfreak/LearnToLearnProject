@@ -6,7 +6,7 @@ class Nuage(pygame.sprite.Sprite):
     def __init__(self, game):
         super().__init__()
         self.velocity = 5
-        self.image = pygame.image.load('../shooter/asset/nuage.png')
+        self.image = pygame.image.load('./data/shooter/asset/nuage.png')
         self.rect = self.image.get_rect()
         self.rect.x = -300
         self.rect.y = 20

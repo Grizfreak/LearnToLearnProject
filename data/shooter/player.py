@@ -1,7 +1,5 @@
 import pygame
-import random
-import time
-from shooter.projectile import Projectile
+from data.shooter.projectile import Projectile
 
 
 # creer une classe joueur
@@ -9,11 +7,13 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self, game):
         super().__init__()
+        self.hasFinished = False
         self.isJump = False
         self.timeInAir = 0
         self.isGravityDel = -1
         self.gravitycount = 0
         self.game = game
+        self.is_shielded = False
         self.health = 100
         self.shield = 25
         self.max_shield = 25
@@ -22,7 +22,7 @@ class Player(pygame.sprite.Sprite):
         self.attack = 15
         self.velocity = 3
         self.all_projectiles = pygame.sprite.Group()
-        self.image = pygame.image.load('../shooter/asset/player.png')
+        self.image = pygame.image.load('./data/shooter/asset/player.png')
         self.rect = self.image.get_rect()
         self.rect.x = 200
         self.rect.y = 350
@@ -40,8 +40,8 @@ class Player(pygame.sprite.Sprite):
         if not self.isShielded:
             if self.health - amount > amount:
                 self.health -= amount
-                if self.health <= 0:
-                    print("Joueur mort")
+                if self.health <= 1:
+                    self.hasFinished = True
         elif self.shield - amount > amount:
                 self.shield -= amount
                 if self.shield <= 1:

@@ -1,35 +1,13 @@
 import pygame
-from platformer.gameConstants import gameConstants
-from platformer.GravityState import GravityState
-from Library_Interpreter.Platformer_Librairies.Gravity_Library import Gravity_Library
-from Library_Interpreter.Platformer_Librairies.Set_Library import Set_Library
-from Library_Interpreter.Dictionnary import Dictionnary
-
-world_data2 = [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1],
-    [1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 2, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 7, 0, 2, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 1],
-    [1, 7, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 7, 0, 0, 0, 0, 1],
-    [1, 0, 2, 0, 0, 7, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 7, 0, 0, 0, 0, 2, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 2, 2, 2, 2, 2, 1],
-    [1, 0, 0, 0, 0, 0, 2, 2, 2, 6, 6, 6, 6, 6, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-]
+from data.platformer.GravityState import GravityState
+from data.Library_Interpreter.Platformer_Librairies.Gravity_Library import Gravity_Library
+from data.Library_Interpreter.Platformer_Librairies.Set_Library import Set_Library
+from data.Library_Interpreter.Dictionnary import Dictionnary
+from data.platformer.World_data import World_data
 
 class Player():
     def __init__(self, x, y, gameConstants):
+        self.hasFinished = False
         self.images_right = []
         self.images_left = []
         self.images_right_BOTTOM = []
@@ -40,12 +18,13 @@ class Player():
         self.images_left_LEFT = []
         self.images_right_RIGHT = []
         self.images_left_RIGHT = []
+        self.datas = World_data()
         self.index = 0
         self.counter = 0
         self.gameConstants = gameConstants
         self.dictionary = Dictionnary([Gravity_Library(self),Set_Library(self)])
         for num in range(1, 5):
-            img_right = pygame.image.load(f'../platformer/img/guy{num}.png')
+            img_right = pygame.image.load(f'./data/platformer/img/guy{num}.png')
             img_right = pygame.transform.scale(img_right, (40, 80))
             img_left = pygame.transform.flip(img_right, True, False)
             self.images_right.append(img_right)
@@ -260,14 +239,15 @@ class Player():
 
         # check for collision with exit
         if pygame.sprite.spritecollide(self, world.exit, False):
-            print('célafin')
-            world.set_data(world_data2)
+            self.gameConstants.actualLevel += 1
+            if self.gameConstants.actualLevel == 5:
+                self.hasFinished = True
+                return
+            world.set_data(self.datas.world_data_arr[self.gameConstants.actualLevel])
             return
-            #TODO finish a level
 
     def draw(self):
         self.gameConstants.screen.blit(self.image, self.rect)
-        pygame.draw.rect(self.gameConstants.screen, (255, 255, 255), self.rect, 2)
 
     def changeSprite(self):
         x = self.rect.x

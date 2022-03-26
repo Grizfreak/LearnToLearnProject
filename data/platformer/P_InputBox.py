@@ -1,5 +1,4 @@
 import pygame
-from platformer.gameConstants import gameConstants
 
 
 class P_InputBox:
